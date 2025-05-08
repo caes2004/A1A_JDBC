@@ -12,15 +12,17 @@ import com.escaes.models.enums.GeneroCliente;
 @Table(name="clientes")
 public class Cliente {
     @Id
+    @Column("documento_cliente")
     private Long documentoCliente;
-
+    @Column("contacto_cliente")
     private Integer contactoCliente;
-
+    @Column("correo_cliente")
     private String correoCliente;
 
     //Enum
+    @Column("genero")
     private GeneroCliente genero;
-
+    @Column("activo")
     private Boolean activo=true;
 
     //One to one
