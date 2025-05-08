@@ -3,6 +3,7 @@ package com.escaes.models;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 import com.escaes.models.enums.TipoVehiculo;
 
@@ -21,6 +22,7 @@ public class Vehiculo {
     
     private TipoVehiculo tipo_vehiculo;
     //Many to one
+    @Column("cliente_documento_cliente")
     private AggregateReference<Cliente, Long> clienteId;
 
     public AggregateReference<Cliente, Long> getClienteId() {

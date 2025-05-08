@@ -5,6 +5,7 @@ import java.util.Set;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.jdbc.core.mapping.AggregateReference;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.escaes.models.enums.GeneroCliente;
@@ -23,6 +24,7 @@ public class Cliente {
     private Boolean activo=true;
 
     //One to one
+    @Column("membresia_id")
     private AggregateReference<Membresia,Long> membresiaid; 
 
     //One to many
