@@ -1,5 +1,6 @@
 package com.escaes.models;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -7,6 +8,9 @@ import org.springframework.data.relational.core.mapping.Table;
 @Table(name="mebresia_prestacion")
 public class Membresias_Prestaciones {
 
+    @Id
+    @Column("id")
+    private Long id;
     @Column("membresia_id")
     private Long membresiaId;
     @Column("prestacion_id")

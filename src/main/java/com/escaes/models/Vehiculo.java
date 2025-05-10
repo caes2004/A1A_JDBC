@@ -11,68 +11,59 @@ import com.escaes.models.enums.TipoVehiculo;
 public class Vehiculo {
 
     @Id
-    private String placa_vehiculo;
-
-    private Boolean con_llaves=false;
-
+    @Column("placa_vehiculo")
+    private String placaVehiculo;
+    @Column("con_llaves")
+    private Boolean conllaves=false;
+    @Column("color")
     private String color;
-
+    @Column("observaciones")
     private String observaciones;
 
-    
-    private TipoVehiculo tipo_vehiculo;
+    @Column("tipo_vehiculo")
+    private TipoVehiculo tipoVehiculo;
     //Many to one
     @Column("cliente_documento_cliente")
     private AggregateReference<Cliente, Long> clienteId;
-
+    
+    public String getPlacaVehiculo() {
+        return placaVehiculo;
+    }
+    public void setPlacaVehiculo(String placaVehiculo) {
+        this.placaVehiculo = placaVehiculo;
+    }
+    public Boolean getConllaves() {
+        return conllaves;
+    }
+    public void setConllaves(Boolean conllaves) {
+        this.conllaves = conllaves;
+    }
+    public String getColor() {
+        return color;
+    }
+    public void setColor(String color) {
+        this.color = color;
+    }
+    public String getObservaciones() {
+        return observaciones;
+    }
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
+    public TipoVehiculo getTipoVehiculo() {
+        return tipoVehiculo;
+    }
+    public void setTipoVehiculo(TipoVehiculo tipoVehiculo) {
+        this.tipoVehiculo = tipoVehiculo;
+    }
     public AggregateReference<Cliente, Long> getClienteId() {
         return clienteId;
     }
-
     public void setClienteId(AggregateReference<Cliente, Long> clienteId) {
         this.clienteId = clienteId;
     }
 
-    public String getPlaca_vehiculo() {
-        return placa_vehiculo;
-    }
-
-    public void setPlaca_vehiculo(String placa_vehiculo) {
-        this.placa_vehiculo = placa_vehiculo;
-    }
-
-    public Boolean getCon_llaves() {
-        return con_llaves;
-    }
-
-    public void setCon_llaves(Boolean con_llaves) {
-        this.con_llaves = con_llaves;
-    }
-
-    public String getColor() {
-        return color;
-    }
-
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public String getObservaciones() {
-        return observaciones;
-    }
-
-    public void setObservaciones(String observaciones) {
-        this.observaciones = observaciones;
-    }
-
-    public TipoVehiculo getTipo_vehiculo() {
-        return tipo_vehiculo;
-    }
-
-    public void setTipo_vehiculo(TipoVehiculo tipo_vehiculo) {
-        this.tipo_vehiculo = tipo_vehiculo;
-    }
-
+    
     
 
 }
