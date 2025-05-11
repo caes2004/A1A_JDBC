@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 
+
+
+
 @Controller
 @RequestMapping("/clientes")
 public class VehiculoController {
@@ -57,6 +60,37 @@ public class VehiculoController {
         vJdbcDao.insertarVehiculo(vehiculo);
         return "redirect:/clientes/{id}/vehiculos";
     }
+    
+    @GetMapping("{id}/{placa}/eliminar")
+    public String getDeleteMethod(@PathVariable("id")Long id,@PathVariable("placa")String placa) {
+            Vehiculo v = vRepository.findByPlacaVehiculo(placa);
+            if (v != null) {
+                vRepository.delete(v);
+            }
+        return "redirect:/clientes/"+id+"/vehiculos";
+    }
+
+    @GetMapping("{id}/{placa}/editar")
+    public String getEditVehiculeView(@PathVariable("id")Long id, @PathVariable("placa")String placa, Model model) {
+
+        model.addAttribute("cliente", clRepository.findById(id).orElseThrow(()->new RuntimeException("Usuario no encontrado")));
+        model.addAttribute("placa", vRepository.findByPlacaVehiculo(placa));
+
+        return "vehiculos/editar";
+    }
+
+    @PostMapping("{id}/{placa}/editar")
+    public String postEditVehicule(@PathVariable("id")Long id,Vehiculo vehiculo) {
+       
+        
+        vehiculo.setClienteId(AggregateReference.to(id));//Para mantener la realcion ya que el id no es autoincremental
+        vRepository.save(vehiculo);
+        
+        return "redirect:/clientes/"+id+"/vehiculos?editSuccess=true";
+    }
+    
+    
+
     
 
 }

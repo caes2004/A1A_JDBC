@@ -9,4 +9,5 @@ import java.util.List;
 public interface VehiculoRepository extends CrudRepository<Vehiculo,String> {
 
     List<Vehiculo> findAllByClienteId(Long clienteId);
+    Vehiculo findByPlacaVehiculo(String placaVehiculo);
 }
