@@ -61,6 +61,15 @@
         </a>
     </div>
 </div>
-
+<!-- Mostrar SweetAlert si ?success está presente en la URL -->
+<div th:if="${param.success}">
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Cliente guardado',
+            text: 'El cliente se ha guardado correctamente',
+            confirmButtonText: 'OK'
+        });
+    </script>
 </body>
 </html>

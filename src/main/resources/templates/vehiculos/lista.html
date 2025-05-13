@@ -47,8 +47,12 @@
                 <td th:text="${vehiculo.observaciones}"></td>
                 <td th:text="${vehiculo.tipoVehiculo}"></td>
                 <td>
-                    <a th:href="@{/clientes/{id}/{placa}/eliminar(id=${cliente.documentoCliente},placa=${vehiculo.placaVehiculo})}" 
-                       class="btn btn-danger btn-sm me-2">Eliminar</a> 
+                    <a href="#" 
+                        class="btn btn-danger btn-sm me-2 btn-eliminar"
+                        th:attr="data-url=@{/clientes/{id}/{placa}/eliminar(id=${cliente.documentoCliente},placa=${vehiculo.placaVehiculo})}">
+                        Eliminar
+                        </a>
+ 
                     <a th:href="@{/clientes/{id}/{placa}/editar(id=${cliente.documentoCliente},placa=${vehiculo.placaVehiculo})}" 
                     class="btn btn-warning btn-sm">Editar</a>   
                 </td>
@@ -72,5 +76,33 @@
         confirmButtonText: 'OK'
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const botonesEliminar = document.querySelectorAll('.btn-eliminar');
+
+        botonesEliminar.forEach(function(boton) {
+            boton.addEventListener('click', function(event) {
+                event.preventDefault();
+                const url = this.getAttribute('data-url');
+
+                Swal.fire({
+                    title: '¿Estás seguro?',
+                    text: "¡Esta acción no se puede deshacer!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#d33',
+                    cancelButtonColor: '#3085d6',
+                    confirmButtonText: 'Sí, eliminar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = url;
+                    }
+                });
+            });
+        });
+    });
+</script>
+
 </body>
 </html>

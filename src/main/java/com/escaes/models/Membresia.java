@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import com.escaes.models.enums.TipoMembresia;
@@ -11,56 +12,58 @@ import com.escaes.models.enums.TipoMembresia;
 public class Membresia {
 
     @Id
+    @Column("id")
     private Long id;
-
+    @Column("cliente_documento_cliente")
+    private Long documentoCliente;
+    @Column("membresia_activa")
+    private Boolean membresiaActiva;
+    @Column("fecha_inico")
+    private LocalDate fechaInico;
+    @Column("fecha_terminacion")
+    private LocalDate fechaTerminacion;
+    @Column("membresia")
+    private TipoMembresia Tipomembresia;
     
-    private Boolean membresia_activa;
-
-    private LocalDate fecha_inico;
-
-    private LocalDate fecha_terminacion;
-
-    private TipoMembresia membresia;
-
+    
     public Long getId() {
         return id;
     }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public Boolean getMembresia_activa() {
-        return membresia_activa;
+    public Long getDocumentoCliente() {
+        return documentoCliente;
+    }
+    public void setDocumentoCliente(Long documentoCliente) {
+        this.documentoCliente = documentoCliente;
+    }
+    public Boolean getMembresiaActiva() {
+        return membresiaActiva;
+    }
+    public void setMembresiaActiva(Boolean membresiaActiva) {
+        this.membresiaActiva = membresiaActiva;
+    }
+    public LocalDate getFechaInico() {
+        return fechaInico;
+    }
+    public void setFechaInico(LocalDate fechaInico) {
+        this.fechaInico = fechaInico;
+    }
+    public LocalDate getFechaTerminacion() {
+        return fechaTerminacion;
+    }
+    public void setFechaTerminacion(LocalDate fechaTerminacion) {
+        this.fechaTerminacion = fechaTerminacion;
+    }
+    public TipoMembresia getTipoMembresia() {
+        return Tipomembresia;
+    }
+    public void setTipoMembresia(TipoMembresia membresia) {
+        this.Tipomembresia = membresia;
     }
 
-    public void setMembresia_activa(Boolean membresia_activa) {
-        this.membresia_activa = membresia_activa;
-    }
-
-    public LocalDate getFecha_inico() {
-        return fecha_inico;
-    }
-
-    public void setFecha_inico(LocalDate fecha_inico) {
-        this.fecha_inico = fecha_inico;
-    }
-
-    public LocalDate getFecha_terminacion() {
-        return fecha_terminacion;
-    }
-
-    public void setFecha_terminacion(LocalDate fecha_terminacion) {
-        this.fecha_terminacion = fecha_terminacion;
-    }
-
-    public TipoMembresia getMembresia() {
-        return membresia;
-    }
-
-    public void setMembresia(TipoMembresia membresia) {
-        this.membresia = membresia;
-    }
+    
 
     
     

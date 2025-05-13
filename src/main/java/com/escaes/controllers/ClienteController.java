@@ -60,7 +60,7 @@ public class ClienteController {
             clrepo.save(client); // UPDATE
         }
         
-        return "redirect:/clientes";
+        return "redirect:/clientes?success";
     }
     
     @GetMapping("/{id}")
