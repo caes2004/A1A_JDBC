@@ -5,7 +5,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 
-@Table(name="mebresia_prestacion")
+@Table(name="membresia_prestacion")
 public class Membresias_Prestaciones {
 
     @Id
