@@ -16,25 +16,25 @@ public class Membresias_Prestaciones {
     @Column("prestacion_id")
     private Long prestacionId;
     
-    public Membresias_Prestaciones(Long membresia_id, Long prestacion_id) {
-        this.membresiaId = membresia_id;
-        this.prestacionId = prestacion_id;
-    }
-
-    public Long getMembresia_id() {
+    public Long getMembresiaId() {
         return membresiaId;
     }
 
-    public void setMembresia_id(Long membresia_id) {
+    public void setMembresiaId(Long membresia_id) {
         this.membresiaId = membresia_id;
     }
 
-    public Long getPrestacion_id() {
+    public Membresias_Prestaciones(Long membresiaId, Long prestacionId) {
+        this.membresiaId = membresiaId;
+        this.prestacionId = prestacionId;
+    }
+
+    public Long getPrestacionId() {
         return prestacionId;
     }
 
-    public void setPrestacion_id(Long prestacion_id) {
-        this.prestacionId = prestacion_id;
+    public void setPrestacionId(Long prestacionId) {
+        this.prestacionId = prestacionId;
     }
 
    

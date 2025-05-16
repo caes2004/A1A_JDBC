@@ -15,7 +15,7 @@ public class Cliente {
     @Column("documento_cliente")
     private Long documentoCliente;
     @Column("contacto_cliente")
-    private Integer contactoCliente;
+    private Long contactoCliente;
     @Column("correo_cliente")
     private String correoCliente;
 
@@ -41,11 +41,11 @@ public class Cliente {
         this.documentoCliente = documentoCliente;
     }
 
-    public Integer getContactoCliente() {
+    public Long getContactoCliente() {
         return contactoCliente;
     }
 
-    public void setContactoCliente(Integer contactoCliente) {
+    public void setContactoCliente(Long contactoCliente) {
         this.contactoCliente = contactoCliente;
     }
 

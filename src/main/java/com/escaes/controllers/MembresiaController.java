@@ -2,6 +2,7 @@ package com.escaes.controllers;
 
 import java.util.Optional;
 
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,9 +54,14 @@ public class MembresiaController {
 
     @PostMapping("{id}/membresias/anadir")
     public String AddmembresiaPost(@PathVariable("id") Long id, Membresia membresia) {
+        Cliente cliente = clRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
         membresia.setDocumentoCliente(id);
         membresia.setId(null);
-        mRepository.save(membresia);
+        Membresia saved=mRepository.save(membresia);
+
+        cliente.setMembresiaid(AggregateReference.to(saved.getId()));
+        clRepo.save(cliente);
         return "redirect:/clientes/" + id + "/membresias?success";
     }
 

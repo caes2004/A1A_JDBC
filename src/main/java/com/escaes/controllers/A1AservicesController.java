@@ -12,66 +12,96 @@ import com.escaes.repositories.ClienteRepository;
 import com.escaes.repositories.MembresiaRepository;
 import com.escaes.repositories.ServicioLavadoRepository;
 import com.escaes.repositories.VehiculoRepository;
+import com.escaes.repositories.membresia_prestaRepo;
 import com.escaes.services.IMembresiaPrestacionService;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-
+import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 @RequestMapping("/clientes")
 public class A1AservicesController {
 
-    private ClienteRepository clRepo;
+        private ClienteRepository clRepo;
 
-    private VehiculoRepository vRepository;
+        private VehiculoRepository vRepository;
 
-    private MembresiaRepository mRepository;
+        private MembresiaRepository mRepository;
 
-    private ServicioLavadoRepository sLavadoRepository;
+        private ServicioLavadoRepository sLavadoRepository;
 
-    private IMembresiaPrestacionService membresiaService;
+        private IMembresiaPrestacionService membresiaService;
 
-    public A1AservicesController(ClienteRepository clRepo, VehiculoRepository vRepository,
-            MembresiaRepository mRepository, ServicioLavadoRepository sLavadoRepository,
-            IMembresiaPrestacionService membresiaService) {
-        this.clRepo = clRepo;
-        this.vRepository = vRepository;
-        this.mRepository = mRepository;
-        this.sLavadoRepository = sLavadoRepository;
-        this.membresiaService = membresiaService;
-    }
+        private membresia_prestaRepo memPresRepo;
 
-    @GetMapping("/{id}/membresias/{membresiaId}/servicios")
-    public String getMethodName(@PathVariable("id") Long id, @PathVariable("membresiaId") Long membresiaId,
-            Model model) {
+        public A1AservicesController(ClienteRepository clRepo, VehiculoRepository vRepository,
+                        MembresiaRepository mRepository, ServicioLavadoRepository sLavadoRepository,
+                        IMembresiaPrestacionService membresiaService, membresia_prestaRepo memPresRepo) {
+                this.clRepo = clRepo;
+                this.vRepository = vRepository;
+                this.mRepository = mRepository;
+                this.sLavadoRepository = sLavadoRepository;
+                this.membresiaService = membresiaService;
+                this.memPresRepo=memPresRepo;
+        }
 
-        List<Long> prestacionIds = membresiaService.obtenerPrestacionesPorMembresia(membresiaId)
-                .stream()
-                .map(Membresias_Prestaciones::getPrestacion_id)
-                .toList();
+        @GetMapping("/{id}/membresias/{membresiaId}/servicios")
+        public String getMethodName(@PathVariable("id") Long id, @PathVariable("membresiaId") Long membresiaId,
+                        Model model) {
 
-        List<ServicioLavado> prestaciones = (List<ServicioLavado>) sLavadoRepository.findAllById(prestacionIds);
+                List<Long> prestacionIds = membresiaService.obtenerPrestacionesPorMembresia(membresiaId)
+                                .stream()
+                                .map(Membresias_Prestaciones::getPrestacionId)
+                                .toList();
 
-        model.addAttribute("servicios", prestaciones);
-        model.addAttribute("cliente",
-                clRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+                List<ServicioLavado> prestaciones = (List<ServicioLavado>) sLavadoRepository.findAllById(prestacionIds);
 
-        return "servicio/lista";
-    }
+                model.addAttribute("servicios", prestaciones);
+                model.addAttribute("cliente",
+                                clRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
 
-    @GetMapping("/{id}/membresias/{membresiaId}/servicios/nuevo")
-    public String getAddServiceView(@PathVariable("id") Long id, @PathVariable("membresiaId") Long membresiaId,
-            Model model) {
+                return "servicio/lista";
+        }
 
-        model.addAttribute("cliente",
-                clRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
+        @GetMapping("/{id}/membresias/{membresiaId}/servicios/nuevo")
+        public String getAddServiceView(@PathVariable("id") Long id, @PathVariable("membresiaId") Long membresiaId,
+                        Model model) {
 
-        model.addAttribute("membresia",
-                mRepository.findById(membresiaId).orElseThrow(() -> new RuntimeException("Membresia no encontrada")));
+                model.addAttribute("cliente",
+                                clRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
 
-        model.addAttribute("servicio", new ServicioLavado());        
-        return "servicio/anadir";
-    }
+                model.addAttribute("vehiculos", vRepository.findAllByClienteId(id));
+
+                model.addAttribute("membresia",
+                                mRepository.findById(membresiaId)
+                                                .orElseThrow(() -> new RuntimeException("Membresia no encontrada")));
+
+                model.addAttribute("servicio", new ServicioLavado());
+                return "servicio/anadir";
+        }
+
+        @PostMapping("/{id}/membresias/{membresiaId}/servicios/nuevo")
+        public String postMethodName(@PathVariable("id") Long id, @PathVariable("membresiaId") Long membresiaId,
+                        ServicioLavado servicio) {
+
+                servicio.setId(null);
+                ServicioLavado saved = sLavadoRepository.save(servicio);
+                membresiaService.vincularMembresiaConPrestacion(membresiaId, saved.getId());
+
+                return "redirect:/clientes/" + id + "/membresias/" + membresiaId + "/servicios?success";
+        }
+
+        @GetMapping("/{id}/membresias/{membresiaId}/servicios/{servicioId}/eliminar")
+        public String eliminarServicio(@PathVariable("servicioId") Long servicioId,
+                        @PathVariable("membresiaId") Long membresiaId,
+                        @PathVariable("id") Long clienteId) {
+
+                if (!sLavadoRepository.existsById(servicioId)) {
+                        throw new RuntimeException("Servicio no encontrado");
+                }
+                memPresRepo.deleteByPrestacionId(servicioId);
+                sLavadoRepository.deleteById(servicioId); 
+                return "redirect:/clientes/" + clienteId + "/membresias/" + membresiaId + "?deleted";
+        }
 
 }

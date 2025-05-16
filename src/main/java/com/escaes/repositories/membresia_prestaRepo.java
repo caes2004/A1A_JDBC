@@ -8,7 +8,9 @@ import com.escaes.models.Membresias_Prestaciones;
 
 public interface membresia_prestaRepo extends CrudRepository<Membresias_Prestaciones,Long>{
 
-    List<Membresias_Prestaciones>findByMembresiaId(Long membresia_id);
-    List<Membresias_Prestaciones> findByPrestacionId(Long prestacion_id);
+    List<Membresias_Prestaciones>findByMembresiaId(Long membresiaId);
+    List<Membresias_Prestaciones> findByPrestacionId(Long prestacionId);
+
+    void deleteByPrestacionId(Long prestacionId);
 
 }
