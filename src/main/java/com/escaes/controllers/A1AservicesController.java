@@ -2,6 +2,8 @@ package com.escaes.controllers;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,6 +35,9 @@ public class A1AservicesController {
         private IMembresiaPrestacionService membresiaService;
 
         private membresia_prestaRepo memPresRepo;
+
+        @Autowired
+        private JdbcTemplate jdbcTemplate;
 
         public A1AservicesController(ClienteRepository clRepo, VehiculoRepository vRepository,
                         MembresiaRepository mRepository, ServicioLavadoRepository sLavadoRepository,
@@ -99,9 +104,9 @@ public class A1AservicesController {
                 if (!sLavadoRepository.existsById(servicioId)) {
                         throw new RuntimeException("Servicio no encontrado");
                 }
-                memPresRepo.deleteByPrestacionId(servicioId);
+                jdbcTemplate.update("DELETE FROM membresia_prestacion WHERE prestacion_id = ?", servicioId);
                 sLavadoRepository.deleteById(servicioId); 
-                return "redirect:/clientes/" + clienteId + "/membresias/" + membresiaId + "?deleted";
+                return "redirect:/clientes/" + clienteId + "/membresias/"+membresiaId+"/servicios?deleted";
         }
 
 }
