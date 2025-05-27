@@ -76,6 +76,14 @@
         confirmButtonText: 'OK'
     });
 </script>
+<script th:if="${param.saveSuccess}">
+    Swal.fire({
+        title: '¡Vehículo agregado!',
+        text: 'El vehiculo se guardó correctamente.',
+        icon: 'success',
+        confirmButtonText: 'OK'
+    });
+</script>
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const botonesEliminar = document.querySelectorAll('.btn-eliminar');

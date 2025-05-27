@@ -58,7 +58,7 @@ public class VehiculoController {
        
         vehiculo.setClienteId(AggregateReference.to(id));
         vJdbcDao.insertarVehiculo(vehiculo);
-        return "redirect:/clientes/{id}/vehiculos";
+        return "redirect:/clientes/{id}/vehiculos?saveSuccess=true";
     }
     
     @GetMapping("{id}/{placa}/eliminar")
