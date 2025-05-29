@@ -21,6 +21,8 @@
                     th:each="servicio : ${servicios}">
 
                     <span th:text="${servicio.nombre_prestacion}">Nombre del Servicio</span>
+                    <span th:text="${servicio.descripcion_prestacion}">Descripcion del Servicio</span>
+                    <span th:text="${servicio.estado}">Estado del Servicio</span>
 
                     <div>
                         <!-- Botón Editar -->

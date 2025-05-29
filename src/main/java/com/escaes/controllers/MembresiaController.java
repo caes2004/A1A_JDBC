@@ -91,6 +91,9 @@ public class MembresiaController {
 
         try {
             if (mRepository.existsById(membresiaId)) {
+                Cliente cliente=clRepo.findByMembresiaid(AggregateReference.to(membresiaId));
+                cliente.setMembresiaid(null);
+                clRepo.save(cliente);
                 mRepository.deleteById(membresiaId);
             }
         } catch (Exception e) {

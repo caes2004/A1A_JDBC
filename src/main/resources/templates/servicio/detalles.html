@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1 class="mb-4">Información del Cliente</h1>
+
+
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Documento</th>
+                <th>Correo</th>
+                <th>Contacto</th>
+                <th>Género</th>
+                <th>Activo</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td th:text="${cliente.documentoCliente}"></td>
+                <td th:text="${cliente.correoCliente}"></td>
+                <td th:text="${cliente.contactoCliente}"></td>
+                <td th:text="${cliente.genero}"></td>
+                <td th:text="${cliente.activo ? 'Sí' : 'No'}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <h1 class="mb-4">Información de la Membresia</h1>
+     <table class="table table-bordered" th:if="${!#lists.isEmpty(membresias)}">
+        <thead class="table-dark">
+            <tr>
+                <th>Identificador</th>
+                <th>Tipo</th>
+                <th>Inicio</th>
+                <th>Fin</th>
+                <th>Estado</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="membresia : ${membresias}">
+                <td th:text="${membresia.id}"></td>
+                <td th:text="${membresia.TipoMembresia}"></td>
+                <td th:text="${membresia.fechaInico}"></td>
+                <td th:text="${membresia.fechaTerminacion}"></td>
+                <td th:text="${membresia.membresiaActiva ? 'Activa' : 'Inactiva'}"></td>
+            </tr>
+        </tbody>
+        
+    </table>
+</div>
+
+</body>
+</html>

@@ -3,11 +3,14 @@ package com.escaes.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jdbc.core.mapping.AggregateReference;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.escaes.models.Cliente;
+import com.escaes.models.Membresia;
 import com.escaes.models.Membresias_Prestaciones;
 import com.escaes.models.ServicioLavado;
 import com.escaes.repositories.ClienteRepository;
@@ -20,6 +23,9 @@ import com.escaes.services.IMembresiaPrestacionService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+
 @Controller
 @RequestMapping("/clientes")
 public class A1AservicesController {
@@ -49,6 +55,35 @@ public class A1AservicesController {
                 this.membresiaService = membresiaService;
                 this.memPresRepo=memPresRepo;
         }
+        @GetMapping("/todos-servicios")
+        public String getAllservices(Model model) {
+
+                List<ServicioLavado>servicios=(List<ServicioLavado>)sLavadoRepository.findAll();
+
+                model.addAttribute("servicios", servicios);
+
+            return "servicio/todos";
+        }
+        @GetMapping("/todos-servicios/detalles/{id}")
+        public String getMembresiaByService(@PathVariable("id")Long id,Model model) {
+                List<Long> membresiasids=membresiaService.membresiasPorPrestaciones(id)
+                .stream().map(Membresias_Prestaciones::getMembresiaId).toList();
+                List<Membresia>membresia=(List<Membresia>)mRepository.findAllById(membresiasids);
+               
+                if(membresia!=null&&membresia.size()==1){
+
+                        Membresia membresiaForClient=membresia.get(0);
+                        AggregateReference<Membresia, Long> ref = AggregateReference.to(membresiaForClient.getId());
+                        Cliente cliente = clRepo.findByMembresiaid(ref); 
+                        model.addAttribute("cliente", cliente);
+                }else{
+                        throw new IllegalStateException("Se encuentran varias membresias asocidadas");
+                }
+                model.addAttribute("membresias", membresia);
+            return"servicio/detalles";
+        }
+        
+        
 
         @GetMapping("/{id}/membresias/{membresiaId}/servicios")
         public String getMethodName(@PathVariable("id") Long id, @PathVariable("membresiaId") Long membresiaId,
