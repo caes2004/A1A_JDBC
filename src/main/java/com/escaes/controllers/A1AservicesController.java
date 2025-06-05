@@ -97,6 +97,7 @@ public class A1AservicesController {
                 List<ServicioLavado> prestaciones = (List<ServicioLavado>) sLavadoRepository.findAllById(prestacionIds);
 
                 model.addAttribute("servicios", prestaciones);
+                model.addAttribute("membresiaId", membresiaId);
                 model.addAttribute("cliente",
                                 clRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado")));
 

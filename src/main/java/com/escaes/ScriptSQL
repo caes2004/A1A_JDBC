@@ -1,0 +1,39 @@
+CREATE TABLE IF NOT EXISTS Cliente (
+    documentoCliente BIGINT PRIMARY KEY,
+    contactoCliente BIGINT,
+    correoCliente VARCHAR(255),
+    genero ENUM('ALIEN','FEMENINO','MASCULINO')  
+);
+
+CREATE TABLE IF NOT EXISTS Vehiculo (
+    placaVehiculo VARCHAR(20) PRIMARY KEY,
+    color VARCHAR(50),
+    observaciones TEXT,
+    tipoVehiculo ENUM('BUCETA','CAMIONETA','MOTO','OTRO','SEDAN','TRAILER')  
+);
+
+CREATE TABLE IF NOT EXISTS ServicioLavado (
+    id BIGINT PRIMARY KEY,
+    nombre_prestacion VARCHAR(100),
+    descripcion_prestacion TEXT,
+    valor_prestacion DOUBLE,
+    estado ENUM('ENTREGADO','EN_PROCESO','RECIBIDO','RETRASADO')  
+);
+
+CREATE TABLE IF NOT EXISTS Membresia (
+    id BIGINT PRIMARY KEY,
+    documentoCliente BIGINT,
+    membresiaActiva BOOLEAN,
+    fechaInico DATE,
+    fechaTerminacion DATE,
+    Tipomembresia enum('DELUXE','INTERMEDIA','SENCILLA'),  
+    FOREIGN KEY (documentoCliente) REFERENCES Cliente(documentoCliente)
+);
+
+CREATE TABLE IF NOT EXISTS Membresias_Prestaciones (
+    id BIGINT PRIMARY KEY,
+    membresiaId BIGINT,
+    prestacionId BIGINT,
+    FOREIGN KEY (membresiaId) REFERENCES Membresia(id),
+    FOREIGN KEY (prestacionId) REFERENCES ServicioLavado(id)
+);

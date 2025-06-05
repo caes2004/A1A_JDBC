@@ -12,7 +12,8 @@
 <body>
     <div class="container mt-4">
 
-        <h2 class="mb-4">Servicios asociados a la membresía</h2>
+        <h2 class="mb-4">Servicios asociados a la membresía: <span th:text="${membresiaId}"></span></h2>
+        <h2 class="mb-4">Usuario: <span th:text="${cliente.correoCliente}"></span></h2>
 
         <!-- Lista de servicios -->
         <div th:if="${servicios != null and !servicios.isEmpty()}">

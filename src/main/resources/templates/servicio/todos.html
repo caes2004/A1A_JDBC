@@ -26,15 +26,16 @@
 
             <thead class="table-dark">
                 <tr>
-                    <th>Identificador</th>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Valor</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                </tr>   
+                    <th>🆔 Identificador</th>
+                    <th>🧼 Nombre</th>
+                    <th>📝 Descripción</th>
+                    <th>💲 Valor</th>
+                    <th>🔄 Estado</th>
+                    <th>⚙️ Acciones</th>
+                </tr>
+
             </thead>
-            <tbody>            
+            <tbody>
                 <tr th:each="servicio : ${servicios}">
                     <td th:text="${servicio.id}"></td>
                     <td th:text="${servicio.nombre_prestacion}"></td>
@@ -42,11 +43,11 @@
                     <td th:text="${servicio.valor_prestacion}"></td>
                     <td th:text="${servicio.estado}"></td>
                     <td>
-                        <a th:href="@{/clientes/todos-servicios/detalles/{id}(id=${servicio.id})}" 
-                       class="btn btn-success btn-sm">Detalles</a>
+                        <a th:href="@{/clientes/todos-servicios/detalles/{id}(id=${servicio.id})}"
+                            class="btn btn-success btn-sm">Detalles</a>
                     </td>
                 </tr>
-            </tbody>    
+            </tbody>
 
         </table>
 
